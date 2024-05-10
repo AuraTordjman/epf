@@ -27,6 +27,8 @@ const SignupForm = () => {
 
   const [user, setUser] = useState({});
 
+
+
   onAuthStateChanged(auth, (currentUser) => {
     //@ts-ignore
     setUser(currentUser);
