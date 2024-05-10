@@ -1,5 +1,4 @@
-import { initializeApp } from "firebase/app"; 
-import {getAuth} from 'firebase/auth';
+import { getApps, initializeApp } from "firebase/app"; 
 const firebaseConfig = {
     apiKey: "AIzaSyDYvt8Z76QdcJj_C9hPygGxA4qXMI3r-P4",
     authDomain: "eatease-87ab6.firebaseapp.com",
@@ -9,5 +8,6 @@ const firebaseConfig = {
     appId: "1:1035541485789:web:71ea767147803a4f812334",
     measurementId: "G-JFHF1PN1L4"
   };
-  const app = initializeApp(firebaseConfig);
-  export const auth = getAuth(app);
+  
+  let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+  export default firebase_app;

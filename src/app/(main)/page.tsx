@@ -1,6 +1,6 @@
 import { metaObject } from '@/config/site.config';
 import PointOfSalePage from './point-of-sale/page';
-import LoginPage from './login/page';
+import LoginPage from './Connexion/page';
 export const metadata = {
   ...metaObject(),
 };
