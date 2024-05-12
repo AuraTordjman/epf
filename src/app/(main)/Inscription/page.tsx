@@ -1,9 +1,9 @@
 'use client';
-import React from 'react';
-import {useState} from 'react';
-import {createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword} from 'firebase/auth';
+import React, { useState } from 'react';
+import { createUserWithEmailAndPassword, updateProfile, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth';
 import { auth, useAuthContext } from '../authContext';
 import { useRouter } from 'next/navigation';
+// Assurez-vous que les icônes sont importées correctement
 const EyeIcon = () => (
   <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="feather feather-eye">
     <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
@@ -18,82 +18,64 @@ const EyeOffIcon = () => (
   </svg>
 );
 const SignupForm = () => {
-  const me  = useAuthContext(); // Retrieve user context
+  const me = useAuthContext(); // Retrieve user context
 
   const [firstName, setFirstName] = useState("");
-const [lastName, setLastName] = useState("");
-
-  const [registerEmail, setRegisterEmail]= useState("");
-  const [registerPassword, setRegisterPassword]= useState("");
+  const [lastName, setLastName] = useState("");
+  const [registerEmail, setRegisterEmail] = useState("");
+  const [registerPassword, setRegisterPassword] = useState("");
   const [passwordVisible, setPasswordVisible] = useState(false);
-  
-  const router = useRouter();
 
-  const [user, setUser] = useState({});
+  const router = useRouter();
+  const [user, setUser] = useState(null);
 
   onAuthStateChanged(auth, (currentUser) => {
     //@ts-ignore
     setUser(currentUser);
   });
 
-
   const register = async () => {
-   
     try {
-      const user = await createUserWithEmailAndPassword(
-        auth, 
-        registerEmail, 
-        registerPassword
-      );
-      router.push('/point-of-sale');
+      const userCredential = await createUserWithEmailAndPassword(auth, registerEmail, registerPassword);
+      // Update profile with first name and last name
+      await updateProfile(userCredential.user, {
+        displayName: `${firstName} ${lastName}`
+      });
+      console.log("Profil mis à jour avec succès !");
+      router.push('/point-of-sale'); // Redirect on successful registration
     } catch (error) {
-      console.log('Une erreur inattendue s\'est produite');
+      console.error('Une erreur inattendue s\'est produite', error);
     }
   };
 
- 
-
-  console.log(me)
   return (
     <div className="max-w-md mx-auto mt-8 p-6 bg-gray-100 rounded-lg shadow-md">
-  <h2 className="text-2xl font-semibold text-gray-800 mb-4">Inscription</h2>
-  <form action="/submit" method="post">
-    <div className="mb-4">
-      <label htmlFor="firstName" className="block text-gray-700 font-medium mb-1">Prénom :</label>
-      <input type="text" id="firstName" name="firstName" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(event) => setFirstName(event.target.value)}/>
+      <h2 className="text-2xl font-semibold text-gray-800 mb-4">Inscription</h2>
+      <form onSubmit={(event) => { event.preventDefault(); register(); }}>
+        <div className="mb-4">
+          <label htmlFor="firstName" className="block text-gray-700 font-medium mb-1">Prénom :</label>
+          <input type="text" id="firstName" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(e) => setFirstName(e.target.value)} />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="lastName" className="block text-gray-700 font-medium mb-1">Nom :</label>
+          <input type="text" id="lastName" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(e) => setLastName(e.target.value)} />
+        </div>
+        <div className="mb-4">
+          <label htmlFor="email" className="block text-gray-700 font-medium mb-1">Email :</label>
+          <input type="email" id="email" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(e) => setRegisterEmail(e.target.value)} />
+        </div>
+        <div className="mb-4 relative flex items-center">
+          <div className="flex-grow relative">
+            <input type={passwordVisible ? "text" : "password"} id="password1" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(e) => setRegisterPassword(e.target.value)} />
+            <button type="button" onClick={() => setPasswordVisible(!passwordVisible)} className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5" aria-label={passwordVisible ? "Cacher le mot de passe" : "Afficher le mot de passe"}>
+              {passwordVisible ? <EyeOffIcon /> : <EyeIcon />}
+            </button>
+          </div>
+        </div>
+        <button type="submit" className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-300">S&apos;inscrire</button>
+      </form>
     </div>
-    <div className="mb-4">
-      <label htmlFor="lastName" className="block text-gray-700 font-medium mb-1">Nom :</label>
-      <input type="text" id="lastName" name="lastName" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(event) => setLastName(event.target.value)}/>
-    </div>
-    <div className="mb-4">
-      <label htmlFor="email" className="block text-gray-700 font-medium mb-1">Email :</label>
-      <input type="email" id="email" name="email" className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" required onChange={(event) => setRegisterEmail(event.target.value)}/>
-    </div>
-    <label htmlFor="password1" className="block text-gray-700 font-medium mb-1 mr-3">Mot de passe :</label>
-    <div className="mb-4 relative flex items-center">
-      <div className="flex-grow relative">
-        <input type={passwordVisible ? "text" : "password"} 
-               id="password1" 
-               name="password1" 
-               className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:outline-none focus:border-blue-500" 
-               required 
-               onChange={(event) => setRegisterPassword(event.target.value)}
-        />
-        <button
-          type="button"
-          onClick={() => setPasswordVisible(!passwordVisible)}
-          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
-          aria-label={passwordVisible ? "Cacher le mot de passe" : "Afficher le mot de passe"}
-        >
-          {passwordVisible ? <EyeOffIcon /> : <EyeIcon />}
-        </button>
-      </div>
-    </div>
-    <button type="button" className="w-full bg-blue-500 text-white font-semibold py-2 rounded-lg hover:bg-blue-600 transition duration-300" onClick={register}>S&apos;inscrire</button>
-  </form>
-</div>
-
   );
-};//
+};
+
 export default SignupForm;

@@ -17,25 +17,21 @@ export default function ProfileMenu({
   avatarClassName?: string;
   username?: boolean;
 }) {
+  const { user } = useAuthContext() as AuthContextType;
+
   return (
     <ProfileMenuPopover>
       <Popover.Trigger>
         <button
+        
           className={cn(
-            'w-9 shrink-0 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-10',
+            'w-9 shrink-0 bg-primary text-white my-2 rounded-full outline-none focus-visible:ring-[1.5px] focus-visible:ring-gray-400 focus-visible:ring-offset-2 active:translate-y-px sm:w-16',
             buttonClassName
           )}
         >
-          <Avatar
-            src="https://tse1.mm.bing.net/th?id=OIP.J0pE5-dIGqSqhSwYqq0jXQHaHk&pid=Api&P=0&h=180"
-            name="John Doe"
-            className={cn('!h-9 w-9 sm:!h-10 sm:!w-10', avatarClassName)}
-          />
-          {!!username && (
-            <span className="username hidden text-gray-200 dark:text-gray-700 md:inline-flex">
-              Hi, Andry
-            </span>
-          )}
+          {user? <Text >Profil</Text>:<Text >Auth.</Text>}
+          
+         
         </button>
       </Popover.Trigger>
 
@@ -66,13 +62,6 @@ function ProfileMenuPopover({ children }: React.PropsWithChildren<{}>) {
   );
 }
 
-const menuItems = [
-  {
-    name: 'Se connecter',
-    href: '/login',
-  },
-
-];
 function DropdownMenu() {
   const { user } = useAuthContext() as AuthContextType;
 
@@ -97,7 +86,7 @@ function DropdownMenu() {
         <div className="flex items-center border-b border-gray-300 px-6 pb-5 pt-6">
           <Avatar
             src={user.photoURL || "https://example.com/default-avatar.png"}
-            name={user.displayName || "Utilisateur"}
+            name={user.email || "Utilisateur"}
           />
           <div className="ms-3">
             <Title as="h6" className="font-semibold">
@@ -111,8 +100,11 @@ function DropdownMenu() {
         {menuItems.map((item) => (
           <Link
             key={item.name}
+
+            //@ts-ignore
             href={item.href || '#'}
             className="group my-0.5 flex items-center rounded-md px-2.5 py-2 hover:bg-gray-100 focus:outline-none hover:dark:bg-gray-50/50"
+             //@ts-ignore
             onClick={item.action || (() => {})}
           >
             {item.name}
