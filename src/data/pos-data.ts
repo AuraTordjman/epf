@@ -3,8 +3,8 @@ import { cloneDeep } from 'lodash';
 export const posProducts = [
   {
     id: 1,
-    name: 'Chicken curry',
-    description: 'South Asian dish',
+    name: 'Poulet',
+    description: 'Contient de la viande',
     image:
       'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/public/food/1.webp',
     price: 320,
@@ -51,8 +51,8 @@ export const posProducts = [
   },
   {
     id: 5,
-    name: 'CocaCola wit zero diet',
-    description: 'Soft Drinks',
+    name: 'CocaCola zero',
+    description: 'Diet',
     image:
       'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/public/food/5.webp',
     price: 320,
@@ -130,7 +130,7 @@ export const posProducts = [
   },
   {
     id: 12,
-    name: 'Apricot ice cream balls',
+    name: 'Pizza',
     description: 'Ice Cream Items',
     image:
       'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/public/food/12.webp',
@@ -175,8 +175,8 @@ export const posProducts = [
   },
   {
     id: 16,
-    name: 'Apricot ice cream balls',
-    description: 'Ice Cream Items',
+    name: 'Glace vanille',
+    description: '3 boules',
     image:
       'https://s3.amazonaws.com/redqteam.com/isomorphic-furyroad/public/food/16.webp',
     price: 320,

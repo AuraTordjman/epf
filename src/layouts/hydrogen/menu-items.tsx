@@ -12,4 +12,9 @@ export const menuItems = [
     href: '/',
     icon: <PiCreditCardDuotone />,
   },
+  {
+    name: 'Menu2',
+    href: '/',
+    icon: <PiCreditCardDuotone />,
+  },
 ];

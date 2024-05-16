@@ -1,5 +1,6 @@
 import { metaObject } from '@/config/site.config';
 import PointOfSalePage from './point-of-sale/page';
+import TestPage from './Test/page';
 import LoginPage from './Connexion/page';
 export const metadata = {
   ...metaObject(),
@@ -7,5 +8,5 @@ export const metadata = {
 
 export default function FileDashboardPage() {
   
-  return <PointOfSalePage />;
+  return <TestPage/>;
 }

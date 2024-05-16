@@ -1,4 +1,5 @@
 import { getApps, initializeApp } from "firebase/app"; 
+import { getFirestore } from "firebase/firestore";
 const firebaseConfig = {
     apiKey: "AIzaSyDYvt8Z76QdcJj_C9hPygGxA4qXMI3r-P4",
     authDomain: "eatease-87ab6.firebaseapp.com",
@@ -10,4 +11,6 @@ const firebaseConfig = {
   };
   
   let firebase_app = getApps().length === 0 ? initializeApp(firebaseConfig) : getApps()[0];
+  export const db = getFirestore(firebase_app);
   export default firebase_app;
+ 

@@ -1,5 +1,5 @@
 'use client';
-
+// barre de recherche 
 import { Input } from 'rizzui';
 import { PiMagnifyingGlassBold } from 'react-icons/pi';
 import { atom, useAtom } from 'jotai';

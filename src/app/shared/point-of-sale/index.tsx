@@ -1,11 +1,11 @@
 'use client';
-
+// pa,nier 
 import POSProductCategory from '@/app/shared/point-of-sale/pos-product-category';
 import POSProductsFeed from '@/app/shared/point-of-sale/pos-product-feed';
 import PostSidebar from './pos-sidebar';
 import { useCart } from '@/store/quick-cart/cart.context';
 import cn from '@/utils/class-names';
-
+// panier ? 
 export default function POSPageView() {
   const { items, removeItemFromCart, clearItemFromCart } = useCart();
 
