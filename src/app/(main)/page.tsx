@@ -8,5 +8,5 @@ export const metadata = {
 
 export default function FileDashboardPage() {
   
-  return <TestPage/>;
+  return <PointOfSalePage/>;
 }
